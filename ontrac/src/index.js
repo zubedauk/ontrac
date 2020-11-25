@@ -1,17 +1,19 @@
-import React from "react";
-import ReactDOM from "react-dom";
-import "./index.css";
-import PDtracker from "./components/PDtracker";
-import reportWebVitals from "./reportWebVitals";
-import StudentProfile from "./components/StudentProfile"
+import React from 'react';
+import Main from './component/main'
+import ReactDOM from 'react-dom';
+import './index.css';
+import './main.css'
+
+
+// import App from './App';
+import reportWebVitals from './reportWebVitals';
 
 ReactDOM.render(
+ 
   <React.StrictMode>
-   {/* <PDtracker /> */}
-   <StudentProfile />
-    {/* <ViewProfile /> */}
+    <Main />
   </React.StrictMode>,
-  document.getElementById("root"),
+  document.getElementById('root')
 );
 
 // If you want to start measuring performance in your app, pass a function
