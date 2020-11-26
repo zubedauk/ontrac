@@ -1,5 +1,6 @@
 import React,{useEffect,useState} from 'react'
 function Container(){
+     //https://zubeda-hotel-server.glitch.me/bookings/1
     // https://ontrack-team3.herokuapp.com/students
     //https://progresstracer.glitch.me/students
     // https://ontrack-team3.herokuapp.com/students
@@ -18,6 +19,7 @@ function Container(){
     const [load,setLoad]=useState(null);
     function addFreshFunc(addChange){
         //alert("thanks.your data is updated now")
+        alert("ORIGINFRESHFUNG")
         document.getElementById("main").innerHTML=""
         setChange(addChange)
         setLoad('https://ontrack-team3.herokuapp.com/students')
@@ -111,12 +113,17 @@ function Header(prop){
 /////////////////////////////////////////////component Main
 function Main(prop){
     ///////////////this function is used to edit a record
+    const [edit,setEdit]=useState(null);
     function editFunc(e){
-        let id=e.target.parentNode.parentNode.id;
-        setEdit(id);
-        
+        let editId=e.target.parentNode.parentNode.id;
+            setEdit(editId);
+       
     }
-    function editNow(){}
+    ////////////////following method is used to remove component edit
+    function editCancelFunc(){
+        //editCancelFunc
+        setEdit(null);
+    }
     ////following function is used to delete a record
     function delFunc(e){
         let id=e.target.parentNode.parentNode.id;
@@ -158,11 +165,7 @@ function Main(prop){
     ,[prop.cnt,prop])
 ////////////////////setAdd method is used to on/off the new entry div
 const [add,setAdd]=useState(null);
-const [edit,setEdit]=useState(null);
-////////////////following method is used to remove component edit
-function editCancelFunc(){
-    setEdit(null);
-}
+
 ////////////following method is used to on off adButton
 function addCancelFunc(){
      if(add===null){
@@ -184,7 +187,7 @@ return(
     </div>
    {/* call AddNew component for new entry*/}
     {add && (<AddNew addCancelFunc={addCancelFunc} addFreshFunc={prop.addFreshFunc}/>)}
-    {edit && (<Edit addCancelFunc={editCancelFunc} addFreshFunc={prop.addFreshFunc}/>)}
+    {edit && (<Edit addFreshFunc={prop.addFreshFunc} editId={edit} editCancelFunc={editCancelFunc}/>)}
     <table class="table table-striped table-bordered" >
     <caption>List of users</caption>
     <thead>
@@ -208,15 +211,15 @@ return(
     data.map(function(obj){
         return(<>
             <tr id={obj.id} key={obj.id}>
-                <th scope="row" key={obj.id}>{obj.id}</th>
-                <td style={{fontSize:'1.2rem'}}>{obj.name}</td>
-                <td style={{fontSize:'1.2rem'}}>{obj.photo}</td>
-                <td style={{fontSize:'1.2rem'}}>{obj.pdBuddy}</td>
-                <td>{obj.eduBuddy}</td>
-                <td style={{fontSize:'1.2rem'}}>{obj.gitHub}</td>
-                <td style={{fontSize:'1.2rem'}}>{obj.englishTest}</td>
-                <td style={{fontSize:'1.2rem'}}>{obj.languageSupport}</td>
-                <td>
+                <th scope="row" key={obj.id} value={obj.id}>{obj.id}</th>
+                <td style={{fontSize:'1.2rem'}} value={obj.name}>{obj.name}</td>
+                <td style={{fontSize:'1.2rem'}} value={obj.photo}>{obj.photo}</td>
+                <td style={{fontSize:'1.2rem'}} value={obj.pdBuddy}>{obj.pdBuddy}</td>
+                <td value={obj.eduBuddy}>{obj.eduBuddy}</td>
+                <td style={{fontSize:'1.2rem'}} value={obj.gitHub}>{obj.gitHub}</td>
+                <td style={{fontSize:'1.2rem'}} value={obj.englishTest}>{obj.englishTest}</td>
+                <td style={{fontSize:'1.2rem'}} value={obj.languageSupport}>{obj.languageSupport}</td>
+                <td id="tdEdit">
                     <button style={{fontSize:'1.2rem'}} class="btn btn-outline-success my-2 my-sm-0" type="submit" id="btnEdit" onClick={editFunc}>Edit</button>
                 </td>
                 <td id="tdDel">
@@ -348,8 +351,8 @@ function AddNew(prop){
                                 <option style={{fontSize:'1.2rem'}} value="No">No</option>
                             </select>                        
                         </td>
-                        <td style={{fontSize:'1.2rem'}}><input style={{width:'10rem'}} placeholder="Enter Location" type="text" name="txtLocation" id="txtLocation" value={location} onChange={function(e){setLocation(e.target.value)}} /></td>
                         <td style={{fontSize:'1.2rem'}}><input style={{width:'10rem'}} placeholder="Enter Class" type="text" name="txtClassName" id="txtClassName" value={className} onChange={function(e){setClassName(e.target.value)}} /></td>
+                        <td style={{fontSize:'1.2rem'}}><input style={{width:'10rem'}} placeholder="Enter Location" type="text" name="txtLocation" id="txtLocation" value={location} onChange={function(e){setLocation(e.target.value)}} /></td>
 
                         <td style={{fontSize:'1.2rem'}}><input style={{width:'10rem'}} type="text" placeholder="Enter Edu Buddy" name="txtEdu" value={edu} onChange={function(e){setEdu(e.target.value)}} /></td>
                         <td><input style={{width:'10rem'}} type="text" name="txtPD" value={pd} placeholder="Enter PD Buddy" onChange={function(e){setPD(e.target.value)}} /></td>
@@ -382,13 +385,154 @@ function AddNew(prop){
     )
 }
 //////////////////////////////////////////edit component
-function Edit(){
-    return(
-        <div>
-            <h1>sss</h1>
-        </div>
-    )
-    
+function Edit(prop){
+///////////////////////////////////
+const [name,setName]=useState(null)
+const [photo,setPhoto]=useState("yes")
+const [edu,setEdu]=useState(null)
+const [pd,setPD]=useState(null)
+const [gitHub,setGitHub]=useState(null)
+const [english,setEnglish]=useState("Excellent")
+const [languageSupport,setLanuageSupport]=useState("Yes")
+const [location,setLocation]=useState(null);
+const [className,setClassName]=useState(null);
+let editChange=Math.random(300,400);
+ //following method is used to validate forn
+function validate(){
+ 
+    if(name===null){
+        alert("Enter the name please")
+        return false
+    }
+    if(className===null){
+        alert("Enter class name please")
+        return false
+    }
+    if(location===null){
+        alert("Enter location  please")
+        return false
+    }
+    if(edu===null){
+        alert("Enter the Education Buddy please")
+        return false
+    }
+    if(pd===null){
+        alert("Enter the personal development buddy")
+        return false
+    }
+    if(gitHub===null){
+        alert("Enter github id please")
+        return false
+    }
+   
+    return true;
+}
+//following method is used to send new entry to server
+const edit = () => {
+  
+   alert(prop.editId)
+    if(validate()){
+        let student = {
+            name: name,
+            photo:photo,
+            pdBuddy:pd,
+            eduBuddy:edu,
+            location:location,
+            className:className,
+            gitHub:gitHub,
+            englishTest:english,
+            languageSupport:languageSupport
+        };
+      
+        const requestEdit = {
+            method: "PUT",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(student)
+        };
+        var proceed = window.confirm("Saved:Press Ok if You like to add more or press Cancel to finish?");
+        if (proceed) {
+            fetch(`https://ontrack-team3.herokuapp.com/students/${prop.editId}`, requestEdit)
+
+            setName("")
+            setEdu("");
+            setPD("") ;
+            setGitHub(""); 
+            setLocation("")
+            setClassName("")
+          //addFreshFunc={prop.addFreshFunc} editId={edit} editCancelFunc={editCancelFunc}
+         
+          prop.editCancelFunc();
+          alert(editChange)
+          prop.addFreshFunc(editChange)
+            //prop.addCancelFunc('https://ontrack-team3.herokuapp.com/students'); 
+        } 
+    }
+}
+//following method is used to send msg to component main to hide the this component
+
+return(
+    <div id="edit">
+        <table class="table table-striped table-bordered" >
+            <thead>
+                <tr>
+                 
+                    <th scope="col" style={{fontSize:'1.2rem'}}>Name</th>
+                    <th scope="col" style={{fontSize:'1.2rem'}}>Photo</th>
+                    <th scope="col" style={{fontSize:'1.2rem'}}>Class</th>
+                    <th scope="col" style={{fontSize:'1.2rem'}}>Location</th>
+                    <th scope="col" style={{fontSize:'1.2rem'}}>Edu Buddy</th>
+                    <th scope="col" style={{fontSize:'1.2rem'}}>PD Buddy</th>
+                    <th scope="col" style={{fontSize:'1.2rem'}}>GitHub</th>
+                    <th scope="col" style={{fontSize:'1.2rem'}}>English Test</th>
+                    <th scope="col" style={{fontSize:'1.2rem'}}>Language Support</th>
+                    <th scope="col"></th>
+                    <th scope="col"></th>
+                </tr>
+                </thead>  
+                <tbody>
+                <tr>
+                    <td style={{fontSize:'1.2rem'}}><input style={{width:'15rem'}} placeholder="Enter Name" type="text" name="txtName" id="txtName" value={document.getElementById(prop.editId).children[1].textContent} onChange={function(e){setName(e.target.value)}} /></td>
+                    <td style={{fontSize:'1.2rem'}}>
+                        <select name="txtPhoto" onChange={function(e){setPhoto(e.target.value)}} >
+                            <option style={{fontSize:'1.2rem'}} value="yes">Yes</option>
+                            <option style={{fontSize:'1.2rem'}} value="No">No</option>
+                        </select>                        
+                    </td>
+                    <td style={{fontSize:'1.2rem'}}><input style={{width:'10rem'}} placeholder="Enter Class" type="text" name="txtClassName" id="txtClassName" value={document.getElementById(prop.editId).children[3].textContent} onChange={function(e){setClassName(e.target.value)}} /></td>
+                    <td style={{fontSize:'1.2rem'}}><input style={{width:'10rem'}} placeholder="Enter Location" type="text" name="txtLocation" id="txtLocation" value={document.getElementById(prop.editId).children[4].textContent} onChange={function(e){setLocation(e.target.value)}} /></td>
+
+                    <td style={{fontSize:'1.2rem'}}><input style={{width:'10rem'}} type="text" placeholder="Enter Edu Buddy" name="txtEdu" value={document.getElementById(prop.editId).children[5].textContent} onChange={function(e){setEdu(e.target.value)}} /></td>
+                    <td><input style={{width:'10rem'}} type="text" name="txtPD" value={document.getElementById(prop.editId).children[6].textContent} placeholder="Enter PD Buddy" onChange={function(e){setPD(e.target.value)}} /></td>
+                    <td style={{fontSize:'1.2rem'}}><input style={{width:'15rem'}} type="text" name="txtGitHub" placeholder="Enter GitHub ID" value={document.getElementById(prop.editId).children[7].textContent} onChange={function(e){setGitHub(e.target.value) }} /></td>
+                    <td style={{fontSize:'1.2rem'}}>
+                        <select name="selectEnglishTest" onChange={function(e){setEnglish(e.target.value)}} >
+                            <option style={{fontSize:'1.2rem'}} value="Excellent">Excellent</option>
+                            <option style={{fontSize:'1.2rem'}} value="Good">Good</option>
+                            <option style={{fontSize:'1.2rem'}} value="Poor">Poor</option>
+                        </select>
+                    </td>
+                    <td style={{fontSize:'1.2rem'}}>
+                        <select name="selectLanguageSupport" onChange={function(e){setLanuageSupport(e.target.value)}}>
+                            <option style={{fontSize:'1.2rem'}} value="Yes">Yes</option>
+                            <option style={{fontSize:'1.2rem'}} value="No">No</option>
+                        </select>
+                    </td>
+                    <td>
+                            <button style={{fontSize:'1.2rem'}} class="btn btn-success my-2 my-sm-0" onClick={edit} id="btnSave">Save</button>
+                    </td>
+                    <td>
+                        <button  style={{fontSize:'1.2rem',color:'white',borderColor:'red',backgroundColor:'red',display:'flex'}} class="btn btn-outline-success my-2 my-sm-0" type="submit" id="btnCancel" onClick={prop.editCancelFunc}>X</button>
+                    </td>
+                    
+                </tr>
+                </tbody>
+        </table>
+       <hr></hr> 
+    </div>
+)
+///////////////////////////////// 
 }
 /////////////////////////////////////////////////////////component footer
 function Footer(){
