@@ -1,12 +1,17 @@
 import React from 'react';
+import Main from './component/main'
 import ReactDOM from 'react-dom';
 import './index.css';
-import App from './App';
+import './main.css'
+
+
+// import App from './App';
 import reportWebVitals from './reportWebVitals';
 
 ReactDOM.render(
+ 
   <React.StrictMode>
-    <App />
+    <Main />
   </React.StrictMode>,
   document.getElementById('root')
 );
