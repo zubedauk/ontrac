@@ -1,8 +1,9 @@
 import React from 'react';
-import Main from './component/main'
+import Board from './Dashboard/DashBoard.js'
 import ReactDOM from 'react-dom';
+import { HashRouter } from 'react-router-dom'
 import './index.css';
-import './main.css'
+// import './main.css'
 
 
 
@@ -11,9 +12,10 @@ import reportWebVitals from './reportWebVitals';
 
 ReactDOM.render(
  
-  <React.StrictMode>
-    <Main />
-  </React.StrictMode>,
+  < HashRouter>
+     <Board />
+  </ HashRouter>
+ ,
   document.getElementById('root')
 );
 

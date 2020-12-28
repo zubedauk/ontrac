@@ -1,52 +1,30 @@
 import React, { useState, useEffect } from "react";
-import {Table,Progress,Input } from 'antd'
-import ViewProfile from './ViewProfile'
-const StudentProfile=({id})=>{
-  const [studentProfile, setStudentProfile ] = useState(null)  
-id=2;
-  useEffect(() => {
+import { Table, Progress, Input } from "antd";
+import ViewProfile from "./ViewProfile"
+import {InputForm} from "./InputForm"
+
+const StudentProfile = ({ id, setShowProfile }) => {
+  const [studentProfile, setStudentProfile] = useState(null);
+    useEffect(() => {
     console.log("Fetching data from heroku");
 
-    fetch(
-      `https://ontrack-team3.herokuapp.com/profile/student/${id}`
-    )
+    fetch(`https://ontrack-team3.herokuapp.com/profile/student/${id}`)
       .then((res) => res.json())
       .then((data) => {
         setStudentProfile([data]);
       });
   }, []);
-//      useEffect(() => {
-//     fetch(`url/${profile}`)
-//       .then(res => res.json())
-//       .then(data => {
-//         setNewProfile(data);
-//         console.log(data);
-//       });
-//   }, [profile]);
-// console.log(newProfile.assignment.reduce((acc,curr) => acc+curr,0)/newProfile.assignment.reduce((acc,curr) => {if(curr>0) { return acc++}; console.log(acc);},0))
-// console.log(newProfile.assignment.reduce((acc,curr) =>{if(curr>0) { return acc++}})
-// console.log(newProfile.assignment.reduce((acc,curr) => acc+curr,0))
-//const reducer = (acc,curr)=>acc + curr;
-
-
-  
   const columns = [
     {
-      title: "Student_id",
+      title: "Student Id",
       dataIndex: "student_id",
       key: "student_id",
-     // render: (text) => <a href="http://google.co.uk">{text}</a>,
     },
     {
       title: "Name",
       dataIndex: "name",
       key: "name",
     },
-    // {
-    //   title: "assignment",
-    //   dataIndex: "assignment",
-    //   key: "assignment",
-    // },
     {
       title: "Attendance",
       key: "attendance",
@@ -54,15 +32,19 @@ id=2;
       render: (attendance) => (
         <>
           {attendance.map((element) => {
-            return (          
-              
-                <Progress type="circle" strokeColor={{
-        '0%': '#108ee9',
-        '100%': '#87d068',
-      }} percent={element} width={80} />
-              
+            return (
+              <Progress
+                type="circle"
+                strokeColor={{
+                  "0%": "#108ee9",
+                  "100%": "#87d068",
+                }}
+                percent={element}
+                width={80}
+              />
             );
           })}
+
         </>
       ),
     },
@@ -74,53 +56,42 @@ id=2;
       render: (assignment) => (
         <>
           {assignment.map((element) => {
-            
-            
-            return (          
-              
-                <Progress type="circle" strokeColor={{
-        '0%': '#108ee9',
-        '50%': 'amber',
-        '100%': '#87d068',
-      }} percent={(element*10).toFixed(2)} width={80} />
-              
+            return (
+              <Progress
+                type="circle"
+                strokeColor={{
+                  "0%": "#108ee9",
+                  "50%": "amber",
+                  "100%": "#87d068",
+                }}
+                percent={(element * 10).toFixed(2)}
+                width={80}
+              />
             );
           })}
         </>
       ),
     },
     {
+      title: "Assignments Missing",
+      dataIndex: "assignments_missing",
+      key: "assignments_missing",
+    },
+    {
+      title: "Class_Late",
+      dataIndex: "class_late",
+      key: "class_late",
+    },
+    {
       title: "email",
       dataIndex: "email",
       key: "email",
     },
-    
-  ];
-  return <Table columns={columns} dataSource={studentProfile} />;
-};
- 
-//return <TextArea rows={4} />;
-
   
-
- // };
-
-
-//     if (newProfile) {
-//     return (
-//       <div>
-//         Student Profile{" "}
-//         <ul>
-//           <li>Id {newProfile.student_id}</li><br />
-//           <li>Name {newProfile.name}</li><br />
-//           <li>Assignment {newProfile.assignment.reduce((acc,curr) => acc+curr,0)/newProfile.assignment.reduce((acc,curr) =>acc+!!curr,0)}</li><br />
-//           <li>Attendance {newProfile.attendance.reduce((acc,curr) => acc+(curr!=='No'?1:0),0)/newProfile.attendance.length*100}%</li><br />
-//           <li>Email {newProfile.email}</li><br />
-//         </ul>{" "}
-//       </div>
-//     );
-
-// }
-//  return null;
- //};
+  ];
+  return (<><Table columns={columns} dataSource={studentProfile} />
+  <InputForm />
+  <ViewProfile />
+  <button onClick={() => setShowProfile(false)}>Back</button></>);
+};
 export default StudentProfile;

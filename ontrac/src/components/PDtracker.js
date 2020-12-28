@@ -1,7 +1,10 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { Table, Tag, Space } from "antd";
 import "antd/dist/antd.css";
 import "../index.css";
+import Header from './Header'
+import Footer from './Footer'
+import './main.css'
 import useStudentsData from "./useStudentsData";
 // import pd-fake-data.json from "./pd-fake-data.json"
 
@@ -43,6 +46,7 @@ const PDTracker = () => {
 
       render: (homework_submitted) => (
         <>
+       
           {homework_submitted.map((hwk) => {
             let color = hwk === "yes" ? "geekblue" : "green";
             if (hwk === "no") {
@@ -57,26 +61,7 @@ const PDTracker = () => {
         </>
       ),
     },
-    // {
-    //   title: "Progress",
-    //   key: "progress",
-    //   dataIndex: "progress",
-    //   render: (progress) => (
-    //     <>
-    //       {progress.map((prog) => {
-    //         let color = prog === "excellent" ? "geekblue" : "green";
-    //         if (prog === "struggling") {
-    //           color = "red";
-    //         }
-    //         return (
-    //           <Tag color={color} key={prog}>
-    //             {prog.toUpperCase()}
-    //           </Tag>
-    //         );
-    //       })}
-    //     </>
-    //   ),
-    // },
+
     {
       title: "Action",
       key: "action",
@@ -89,7 +74,17 @@ const PDTracker = () => {
     },
   ];
 
-  return <Table columns={columns} dataSource={students} />;
+  return (
+    <>
+     <Header />
+     <hr></hr>
+     <div style={{width:'90vw',marginLeft:'auto',marginRight:'auto',padding:'1rem'}}>
+        <Table columns={columns} dataSource={students} />
+     </div>
+      <hr></hr>
+      <Footer />
+  </>
+  );
 };
 
 export default PDTracker;
